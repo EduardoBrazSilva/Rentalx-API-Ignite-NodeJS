@@ -1,0 +1,11 @@
+.editorconfig
+Diagrama.png
+package.json
+yarn.lock
+yarn-error.log
+tsconfig.json
+prettier.config.js
+.eslintignore
+.eslintrc.json
+.vscode
+node_modules
