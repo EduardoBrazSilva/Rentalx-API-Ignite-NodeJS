@@ -9,19 +9,8 @@ import {
 class CategoriesRepository implements ICategoriesRepository {
     private repository: Repository<Category>;
 
-    private static INSTANCE: CategoriesRepository;
-
-    private constructor() {
+    constructor() {
         this.repository = getRepository(Category);
-    }
-
-    // Singleton - para que exista apenas uma instancia, pois quando usado apenas
-    // "private categories: Category[];" se cria uma nova instancia a cada requisição
-    public static getInstance(): CategoriesRepository {
-        if (!CategoriesRepository.INSTANCE) {
-            CategoriesRepository.INSTANCE = new CategoriesRepository();
-        }
-        return CategoriesRepository.INSTANCE;
     }
 
     async create({ name, description }: ICreateCategoryDTO): Promise<void> {
