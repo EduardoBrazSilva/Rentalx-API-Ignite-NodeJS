@@ -28,10 +28,10 @@ class User {
     created_at: Date;
 
     constructor() {
-        if (!this.id){
+        if (!this.id) {
             this.id = uuidV4();
         }
-    };
+    }
 }
 
 export { User };
