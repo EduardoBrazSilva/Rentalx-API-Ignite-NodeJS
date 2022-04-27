@@ -1,6 +1,7 @@
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
+import { AppError } from '../../../../errors/AppError';
 
 import { IUsersRepository } from '../../repositories/IUsersRepository';
 
@@ -26,12 +27,12 @@ class AuthenticateUserUseCase {
         // verifica de o email está correto
         const user = await this.usersRepository.findByEmail(email);
         if (!user) {
-            throw new Error('Email or password incorrect!');
+            throw new AppError('Email or password incorrect!');
         }
         // Verifica se senha está correta
         const passwordMatch = await compare(password, user.password);
         if (!passwordMatch) {
-            throw new Error('Email or password incorrect!');
+            throw new AppError('Email or password incorrect!');
         }
         // Gerar jsonwebtoken
         const token = sign({}, '513ad4f1d4bb1f294b3f588b3fda5515', {

@@ -3,6 +3,7 @@
     "bcryptjs": "^2.4.3",
     "csv-parse": "^5.0.4",
     "express": "^4.17.3",
+    "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.4",
     "pg": "^8.7.3",
@@ -17,7 +18,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts --poll",
+    "dev": "ts-node-dev -r tsconfig-paths/register --inspect --poll --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli"
   },
   "devDependencies": {
