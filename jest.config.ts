@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { pathsToModuleNameMapper } from 'ts-jest/utils';
+import { pathsToModuleNameMapper } from 'ts-jest';
 
 // eslint-disable-next-line import/newline-after-import
 import { compilerOptions } from './tsconfig.json';
