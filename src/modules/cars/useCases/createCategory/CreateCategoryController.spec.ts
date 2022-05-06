@@ -7,9 +7,10 @@ import { app } from '@shared/infra/http/app';
 import createConnection from '@shared/infra/typeorm';
 
 let connection: Connection;
-describe('Create Category Controller!', () => {
-    beforeEach(async () => {
+describe('Create Category Controller', () => {
+    beforeAll(async () => {
         connection = await createConnection();
+        await connection.runMigrations();
 
         const id = uuidV4();
         const password = await hash('admin', 8);
@@ -20,13 +21,18 @@ describe('Create Category Controller!', () => {
             `
         );
     });
+
+    afterAll(async () => {
+        await connection.dropDatabase();
+        await connection.close();
+    });
     it('should be able to create a new category', async () => {
         const responseToken = await Request(app).post('/sessions').send({
             email: 'admin@rentx.com.br',
             password: 'admin',
         });
 
-        console.log(responseToken);
+        console.log(responseToken.body);
 
         const response = await Request(app).post('/categories').send({
             name: 'Category Supertest',
