@@ -11,7 +11,7 @@ describe('Create Car', () => {
         carsRepositoryInMemory = new CarsRepositoryInMemory();
         createCarsUseCase = new CreateCarsUseCase(carsRepositoryInMemory);
     });
-    it('Shoulb be able to create a new car', async () => {
+    it('Should be able to create a new car', async () => {
         const car = await createCarsUseCase.execute({
             name: 'Name Car',
             description: 'Description Car',
@@ -24,18 +24,18 @@ describe('Create Car', () => {
         expect(car).toHaveProperty('id');
     });
 
-    it('Shoulb not be able create a car with exists license plate', async () => {
-        expect(async () => {
-            await createCarsUseCase.execute({
-                name: 'car1',
-                description: 'Description Car',
-                daily_rate: 100,
-                license_plate: 'ABC-1234',
-                fine_amount: 60,
-                brand: 'Brand',
-                category_id: 'category',
-            });
-            await createCarsUseCase.execute({
+    it('Should not be able create a car with exists license plate', async () => {
+        await createCarsUseCase.execute({
+            name: 'car1',
+            description: 'Description Car',
+            daily_rate: 100,
+            license_plate: 'ABC-1234',
+            fine_amount: 60,
+            brand: 'Brand',
+            category_id: 'category',
+        });
+        await expect(
+            createCarsUseCase.execute({
                 name: 'car2',
                 description: 'Description Car',
                 daily_rate: 100,
@@ -43,10 +43,10 @@ describe('Create Car', () => {
                 fine_amount: 60,
                 brand: 'Brand',
                 category_id: 'category',
-            });
-        }).rejects.toBeInstanceOf(AppError);
+            })
+        ).rejects.toEqual(new AppError('Car already exists!'));
     });
-    it('Shoulb be able to create a car with available true by default', async () => {
+    it('Should be able to create a car with available true by default', async () => {
         const car = await createCarsUseCase.execute({
             name: 'Car Available',
             description: 'Description Car',

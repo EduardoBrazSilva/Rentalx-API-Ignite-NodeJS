@@ -9,7 +9,7 @@ interface IRequest {
     email: string;
     password: string;
 }
-interface IRespose {
+interface IResponse {
     user: {
         name: string;
         email: string;
@@ -23,7 +23,7 @@ class AuthenticateUserUseCase {
         @inject('UsersRepository')
         private usersRepository: IUsersRepository
     ) {}
-    async execute({ email, password }: IRequest): Promise<IRespose> {
+    async execute({ email, password }: IRequest): Promise<IResponse> {
         // verifica de o email está correto
         const user = await this.usersRepository.findByEmail(email);
         if (!user) {
@@ -40,7 +40,7 @@ class AuthenticateUserUseCase {
             expiresIn: '1d',
         });
 
-        const tokenReturn: IRespose = {
+        const tokenReturn: IResponse = {
             token,
             user: {
                 name: user.name,

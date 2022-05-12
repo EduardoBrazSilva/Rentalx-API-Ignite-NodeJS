@@ -18,19 +18,19 @@ describe('Create Car Specification', () => {
             specificationsRepositoryInMemory
         );
     });
-    it('Shoulb not be able to add a new specification to a now-existent car', async () => {
-        expect(async () => {
-            const car_id = '1234';
-            const specifications_id = ['54321'];
+    it('Should not be able to add a new specification to a now-existent car', async () => {
+        const car_id = '1234';
+        const specifications_id = ['54321'];
 
-            await createCarsSpecificationUseCase.execute({
+        await expect(
+            createCarsSpecificationUseCase.execute({
                 car_id,
                 specifications_id,
-            });
-        }).rejects.toBeInstanceOf(AppError);
+            })
+        ).rejects.toEqual(new AppError('Car does not exists!'));
     });
 
-    it('Shoulb be able to add a new specification to the car', async () => {
+    it('Should be able to add a new specification to the car', async () => {
         const car = await carsRepositoryInMemory.create({
             name: 'Name Car',
             description: 'Description Car',
