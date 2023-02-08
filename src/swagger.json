@@ -190,6 +190,54 @@
                         "description": "Car already exists!"
                     }
                 }
+            } 
+        },
+        "/cars/available": {
+            "get": {
+                "tags": ["Cars"],
+                "summary": "List all cars available",
+                "description": "List all cars available",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "brand",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Brand car",
+                        "required": false
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "type": "string",
+                        "description": "name car",
+                        "required": false
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "category_id",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "data": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
         },
         "/cars/images/{id}": {
@@ -235,6 +283,180 @@
                     }
                 }
             }
+        },
+        "/users": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create a User",
+                "description": "Create a User",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Users"
+                            },
+                            "example": {
+                                "name": "User",
+                                "password": "test123",
+                                "email": "test123@example.com",
+                                "driver_license": "123456dd"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Car already exists!"
+                    }
+                }
+                  
+            }
+        },
+        "/users/profile": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "List user profile",
+                "description": "List user profile",
+                "security": [
+                    {"bearerAuth": []}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        
+                        "schema": {
+                            "type": "array",
+                            "properties": {
+                                "data": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/avatar": {
+            "patch": {
+                "tags": ["Users"],
+                "summary": "Create a category",
+                "description": "Create a new category",
+                "security": [
+                    {"bearerAuth": []}
+                ],
+                "requestBody": {
+                    "content": {
+                       "multipart/form-data": {
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "filename": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                       }
+                        
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }                    
+            }
+        },
+        "/rentals": {
+            "post": {
+                "tags": ["Rentals"],
+                "summary": "Create a new rental",
+                "description": "Create a new rental",
+                "security": [
+                    {"bearerAuth": []}
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type":"object",
+                                "properties": {
+                                    "expected_return_date": {
+                                        "type":"string"
+                                    },
+                                    "car_id": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example":{
+                                "expected_return_date": "2023-05-03T20:17:32.241Z",
+                                "car_id": "d6509174-65a1-445c-aa3e-ce050ce2ab9a"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/rentals/devolution/{id}": {
+            "post": {
+                "tags": ["Rentals"],
+                "summary": "Devolution car rental",
+                "description": "Devolution car rental",
+                "security": [
+                    {"bearerAuth": []}
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "string",
+                        "description": "Id rental",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Devolution sucess"
+                    }
+                }
+            }
+        },
+        "/rentals/user": {
+            "get": {
+                "tags": ["Rentals"],
+                "summary": "List all rentals user ",
+                "description": "List all rental user",
+                "security": [
+                    {"bearerAuth": []}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        
+                        "schema": {
+                            "type": "array",
+                            "properties": {
+                                "data": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -245,6 +467,23 @@
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "Users": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "driver_license": {
                     "type": "string"
                 }
             }
